@@ -18,6 +18,17 @@ void print_example_hashes() {
 
 	name = "Ringo";
 	printf("hash(\"%s\") => %u\n", name, hash(name));
+
+	name = "Sally";
+	printf("hash(\"%s\") => %u\n", name, hash(name));
+
+	name = "Bob";
+	printf("hash(\"%s\") => %u\n", name, hash(name));
+
+	name = "Yeller";
+	printf("hash(\"%s\") => %u\n", name, hash(name));
+
+	fputc('\n', stdout);
 }
 
 void test_initialize_hash_table() {
@@ -57,10 +68,57 @@ void test_insert() {
 	assert(lookup_result -> age == 40);
 }
 
+void test_collision() {
+	Person* hash_table[TABLE_SIZE];
+	init_hash_table(hash_table);
+
+	Person paul   = { .name = "Paul",   .age = 80 };
+	Person john   = { .name = "John",   .age = 40 };
+	Person george = { .name = "George", .age = 58 };
+	Person ringo  = { .name = "Ringo",  .age = 82 };
+	Person sally  = { .name = "Sally",  .age = 42 };
+	Person bob    = { .name = "Bob",    .age = 32 };
+	Person yeller = { .name = "Yeller", .age = 23 }; // yeller collides with john
+
+	bool is_success = insert_in_hash_table(hash_table, &paul);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &john);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &george);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &ringo);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &sally);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &bob);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &yeller);
+	assert(is_success);
+
+	print_table(hash_table);
+
+	char const* lookup_name = "John";
+	Person* lookup_result = lookup_in_hash_table(hash_table, lookup_name);
+	assert(strcmp(lookup_result -> name, lookup_name) == 0);
+	assert(lookup_result -> age == john.age);
+
+	lookup_name = "Yeller";
+	lookup_result = lookup_in_hash_table(hash_table, lookup_name);
+	assert(strcmp(lookup_result -> name, lookup_name) == 0);
+	assert(lookup_result -> age == yeller.age);
+}
+
 int main(int argc, char* argv[]) {
-	//print_example_hashes();
+	print_example_hashes();
 	//test_initialize_hash_table();
-	test_insert();
+	//test_insert();
+	test_collision();
 	return EXIT_SUCCESS;
 }
 

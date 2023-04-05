@@ -36,18 +36,28 @@ void print_table(Person** table) {
 }
 
 bool insert_in_hash_table(Person** table, Person* a_person) {
+	// Use hash_value space or find next available space in table and use that.
 	unsigned int hash_value = hash(a_person->name);
-	if(table[hash_value] != NULL) {
-		return false; // Collision
+	for(int i = 0; i < TABLE_SIZE; i++) {
+		int index = hash_value + i % TABLE_SIZE; // Counts from our current index to max value, then wraps around to 0 and continues.
+		if(table[index] == NULL) { // If an empty space is found
+			table[index] = a_person;
+			return true;
+		}
 	}
 
-	table[hash_value] = a_person;
-	return true;
+	return false; // No space in list
 }
 
 Person* lookup_in_hash_table(Person** table, char const* name) {
 	unsigned int hash_value = hash(name);
-	return table[hash_value];
+	for(int i = 0; i < TABLE_SIZE; i++) {
+		int index = hash_value + i % TABLE_SIZE; // Counts from our current index to max value, then wraps around to 0 and continues.
+		if(table[index] != NULL && strcmp(table[index]->name, name) == 0) { // If an empty space is found
+			return table[index];
+		}
+	}
+	return NULL; // Did not find person in table
 }
 
 /* vim: set tabstop=4 shiftwidth=4 fileencoding=utf-8 noexpandtab: */
