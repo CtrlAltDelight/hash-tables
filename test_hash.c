@@ -68,6 +68,48 @@ void test_insert() {
 	assert(lookup_result -> age == 40);
 }
 
+void test_delete() {
+	Person* hash_table[TABLE_SIZE];
+	init_hash_table(hash_table);
+
+	Person paul   = { .name = "Paul",   .age = 80 };
+	Person john   = { .name = "John",   .age = 40 };
+	Person george = { .name = "George", .age = 58 };
+	Person ringo  = { .name = "Ringo",  .age = 82 };
+
+	bool is_success = insert_in_hash_table(hash_table, &paul);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &john);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &george);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &ringo);
+	assert(is_success);
+
+	char const* lookup_name = "John";
+	Person* lookup_result = lookup_in_hash_table(hash_table, lookup_name);
+	assert(strcmp(lookup_result -> name, lookup_name) == 0);
+	assert(lookup_result -> age == 40);
+
+	printf("Before delete:\n");
+	print_table(hash_table);
+
+	is_success = delete_in_hash_table(hash_table, "John");
+	assert(is_success);
+
+	is_success = delete_in_hash_table(hash_table, "George");
+	assert(is_success);
+
+	printf("After delete:\n");
+	print_table(hash_table);
+
+	lookup_result = lookup_in_hash_table(hash_table, lookup_name);
+	assert(lookup_result == NULL);
+}
+
 void test_collision() {
 	Person* hash_table[TABLE_SIZE];
 	init_hash_table(hash_table);
@@ -118,7 +160,9 @@ int main(int argc, char* argv[]) {
 	print_example_hashes();
 	//test_initialize_hash_table();
 	//test_insert();
-	test_collision();
+	test_delete();
+	//test_collision();
+	
 	return EXIT_SUCCESS;
 }
 

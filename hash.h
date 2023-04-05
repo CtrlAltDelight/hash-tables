@@ -15,6 +15,7 @@ void init_hash_table(Person** table);
 void print_table(Person** table);
 bool insert_in_hash_table(Person** table, Person* a_person);
 Person* lookup_in_hash_table(Person** table, char const* name);
+bool delete_in_hash_table(Person** table, char const* name);
 
 #endif
 

@@ -37,9 +37,9 @@ void print_table(Person** table) {
 
 bool insert_in_hash_table(Person** table, Person* a_person) {
 	// Use hash_value space or find next available space in table and use that.
-	unsigned int hash_value = hash(a_person->name);
+	unsigned int index = hash(a_person->name);
 	for(int i = 0; i < TABLE_SIZE; i++) {
-		int index = hash_value + i % TABLE_SIZE; // Counts from our current index to max value, then wraps around to 0 and continues.
+		index = (index + i) % TABLE_SIZE; // Counts from our current index to max value, then wraps around to 0 and continues.
 		if(table[index] == NULL) { // If an empty space is found
 			table[index] = a_person;
 			return true;
@@ -50,14 +50,25 @@ bool insert_in_hash_table(Person** table, Person* a_person) {
 }
 
 Person* lookup_in_hash_table(Person** table, char const* name) {
-	unsigned int hash_value = hash(name);
+	unsigned int index = hash(name);
 	for(int i = 0; i < TABLE_SIZE; i++) {
-		int index = hash_value + i % TABLE_SIZE; // Counts from our current index to max value, then wraps around to 0 and continues.
-		if(table[index] != NULL && strcmp(table[index]->name, name) == 0) { // If an empty space is found
+		index = (index + i) % TABLE_SIZE; // Counts from our current index to max value, then wraps around to 0 and continues.
+		if(table[index] != NULL && strcmp(table[index]->name, name) == 0) { // If a person is found and the names match
 			return table[index];
 		}
 	}
 	return NULL; // Did not find person in table
 }
 
+bool delete_in_hash_table(Person** table, char const* name) {
+	unsigned int index = hash(name);
+	for(int i = 0; i < TABLE_SIZE; i++) {
+		index = (index + i) % TABLE_SIZE; // Counts from our current index to max value, then wraps around to 0 and continues.
+		if(table[index] != NULL && strcmp(table[index]->name, name) == 0) {
+			table[index] = NULL;
+			return true;
+		}
+	}
+	return false; // Did not find person in table
+}
 /* vim: set tabstop=4 shiftwidth=4 fileencoding=utf-8 noexpandtab: */
