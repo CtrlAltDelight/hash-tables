@@ -18,7 +18,6 @@ void print_example_hashes() {
 
 	name = "Ringo";
 	printf("hash(\"%s\") => %u\n", name, hash(name));
-
 }
 
 void test_initialize_hash_table() {
@@ -29,9 +28,39 @@ void test_initialize_hash_table() {
 	assert(hash_table[TABLE_SIZE - 1] == NULL);
 }
 
+void test_insert() {
+	Person* hash_table[TABLE_SIZE];
+	init_hash_table(hash_table);
+
+	Person paul   = { .name = "Paul",   .age = 80 };
+	Person john   = { .name = "John",   .age = 40 };
+	Person george = { .name = "George", .age = 58 };
+	Person ringo  = { .name = "Ringo",  .age = 82 };
+
+	bool is_success = insert_in_hash_table(hash_table, &paul);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &john);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &george);
+	assert(is_success);
+
+	is_success = insert_in_hash_table(hash_table, &ringo);
+	assert(is_success);
+
+	print_table(hash_table);
+
+	char const* lookup_name = "John";
+	Person* lookup_result = lookup_in_hash_table(hash_table, lookup_name);
+	assert(strcmp(lookup_result -> name, lookup_name) == 0);
+	assert(lookup_result -> age == 40);
+}
+
 int main(int argc, char* argv[]) {
-	print_example_hashes();
-	test_initialize_hash_table();
+	//print_example_hashes();
+	//test_initialize_hash_table();
+	test_insert();
 	return EXIT_SUCCESS;
 }
 
