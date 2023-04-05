@@ -25,6 +25,7 @@ void test_initialize_hash_table() {
 	Person* hash_table[TABLE_SIZE]; // One reason to use addresses instead of Person structs is it saves space.
 									// Another reason is that you can use NULL for an empty space}
 	init_hash_table(hash_table);
+	print_table(hash_table);
 	assert(hash_table[TABLE_SIZE - 1] == NULL);
 }
 

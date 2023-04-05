@@ -29,11 +29,10 @@ static void _print_person(Person person) {
 
 void print_table(Person** table) {
 	for(int i = 0; i < TABLE_SIZE; i++) {
-		Person* a_person = table[TABLE_SIZE];
+		Person* a_person = table[i];
 		if(a_person != NULL) {
 			_print_person(*a_person);
 		}
-		
 	}
 }
 
