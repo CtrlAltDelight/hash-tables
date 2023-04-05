@@ -14,7 +14,12 @@ typedef struct {
 } Person;
 
 unsigned int hash(char* name) {
-	return 5;
+	int length = strnlen(name, MAX_NAME);
+	unsigned int hash_value = 0;
+	for(int i = 0; i < length; i++) {
+		hash_value += name[i];
+	}
+	return hash_value;
 }
 
 int main(int argc, char* argv[]) {
@@ -28,6 +33,12 @@ int main(int argc, char* argv[]) {
 	printf("hash(\"%s\") => %u\n", name, hash(name));
 
 	name = "Ringo";
+	printf("hash(\"%s\") => %u\n", name, hash(name));
+
+	name = "April";
+	printf("hash(\"%s\") => %u\n", name, hash(name));
+
+	name = "Alpir";
 	printf("hash(\"%s\") => %u\n", name, hash(name));
 
 	return EXIT_SUCCESS;
