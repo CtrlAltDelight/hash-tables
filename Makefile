@@ -1,8 +1,8 @@
 BASE_NAME=hash
 SRC_C=$(BASE_NAME).c
 SRC_H=$(BASE_NAME).h
-TEST_C=test_$(SRC_C)
-EXECUTABLE=test_hash
+EXECUTABLE=test_$(BASE_NAME)
+TEST_C=$(EXECUTABLE).c
 CFLAGS=-g -std=c11 -Wall -Wshadow -Wvla -Werror -pedantic
 
 $(EXECUTABLE): $(SRC_C) $(SRC_H) $(TEST_C)
